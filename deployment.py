@@ -30,7 +30,8 @@ def predict(text):
     # Make predictions using the loaded model
     features = vectroized_model.transform([text])
     prediction = loaded_model.predict(features)
-    decoded_prediction = label_encoders["Sentiment (Label)"].inverse_transform(prediction)
+    # decoded_prediction = label_encoders["Sentiment (Label)"].inverse_transform(prediction)
+    decoded_prediction = label_encoders['Label'].inverse_transform(prediction)
 
 
     return decoded_prediction[0]
