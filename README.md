@@ -1,20 +1,33 @@
-# Sentiment Analysis with Support Vector Machine Classifier
+# Sentiment Analysis
 
 ## Overview
 This sentiment analysis code utilizes a Support Vector Machine (SVM) classifier to classify text data into different sentiment labels. Below is a breakdown of the key components of the code:
 
 ### Data Preprocessing
 The text data undergoes preprocessing steps including:
-- Conversion to lowercase
-- Removal of punctuation
-- Elimination of stopwords using NLTK
-- Dropping irrelevant columns from the dataset
+- Conversion to lowercase.
+- Removal of punctuation.
+- Elimination of stopwords using NLTK.
+- Dropping irrelevant columns from the dataset.
+- Remove Emojis.
+- Sentiment analysis using NLTK's `convert_sentiment` function to categorize the sentiment of the text into 'Positive', 'Negative', or 'Neutral' labels.
+- Convert all label values to 0, 1, and 2 using label encoding exclusively.
 
-### Feature Encoding
-Categorical features such as 'Topic' and 'Sentiment (Label)' are encoded using LabelEncoder from scikit-learn.
 
-### Feature Extraction
-Text data is transformed into numerical features using CountVectorizer, with a limit of 1000 maximum features.
+### Reducing Data Biases
+#### Train-Test Split:
+- The dataset (df) is shuffled using the sample method with frac=1 to randomize the data.
+- The data is separated into three types based on the value of the 'Label' column: negative, neutral, and positive.
+- For each type, 80% of the data is selected for training (type1Train, type2Train, type3Train) using integer indexing with iloc.
+- The remaining 20% of each type is selected for testing (type1Test, type2Test, type3Test) using integer indexing with iloc
+- ##### Concatenation:
+  - The training data (dfTrain) is created by concatenating the training samples from each type using pd.concat.
+  - The testing data (dfTest) is created by concatenating the testing samples from each type using pd.concat
+#### Applying SMOTE:
+- The text data is represented as TF-IDF vectors using TfidfVectorizer().
+- The training data (x_train, y_train) is transformed into TF-IDF vectors, and the testing data (x_test, y_test) is transformed accordingly.
+- SMOTE (Synthetic Minority Over-sampling Technique) is applied to the training data using SMOTE() with sampling_strategy='not majority', which oversamples the minority classes to address data imbalances.
+- The oversampled training data (x_train_over, y_train_over) is obtained after applying SMOTE.
 
 ### Model Training
 A Support Vector Machine classifier with a linear kernel is trained on the preprocessed and encoded training data.
@@ -25,33 +38,4 @@ The trained model's performance is evaluated on the test set, and the following 
 - Precision
 - Recall
 - F1-score
-
-### Printed Outputs
-The code prints out the accuracy, precision, recall, and F1-score, along with a classification report containing precision, recall, and F1-score for each class.
-
-## Output Interpretation
-- **Accuracy:** Percentage of correctly classified instances.
-- **Precision:** The ability of the classifier not to label a negative sample as positive.
-- **Recall:** The ability of the classifier to find all positive samples.
-- **F1 Score:** Harmonic mean of precision and recall.
-
-## Note
-Ensure that the dataset `sentimentdataset.csv` contains the required columns for text data ('Text'), sentiment labels ('Sentiment (Label)'), and topics ('Topic'). Modify the file path if the dataset is stored in a different location.
-
-## License
-MIT License
-
-Copyright (c) 2024 Mazen Alaa
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+- Cross-Validation
