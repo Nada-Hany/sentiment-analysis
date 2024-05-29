@@ -1,4 +1,7 @@
-# Sentiment Analysis
+
+<h1 align="center" id="title"> Sentiment Analysis</h1>
+
+![image](https://github.com/mazen200/Sentiment_Analysis/assets/113688043/b8488ac6-1e67-41b0-9b75-5188d8021c16)
 
 ## Overview
 This sentiment analysis code utilizes a Support Vector Machine (SVM) classifier to classify text data into different sentiment labels. Below is a breakdown of the key components of the code:
